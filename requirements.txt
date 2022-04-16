@@ -1,4 +1,4 @@
 django
 gunicorn
 djangorestframework
-djangorestframework-jwt
+djangorestframework_simplejwt
