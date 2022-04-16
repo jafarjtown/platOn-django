@@ -1,0 +1,8 @@
+POST http://localhost:8000/api/courses/
+
+{
+    "title": "hello world in PlatOn",
+    "description": "some dummy text",
+    "text": "the course in text format",
+    "developer": 3
+}
