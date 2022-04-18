@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PlatOn Server | API</title>
+</head>
+<body>
+    <div class="wrapper">
+        <h1>End-Points ....</h1>
+        <ul>
+            <li>
+                <h2>Account end points</h2>
+                <ol>
+                   <li>
+                    <a href="{% url 'account:user_login' %}">{% url 'account:user_login' %}</a>
+                </li> 
+                <li>
+                    <a href="{% url 'account:token_obtain_pair' %}">{% url 'account:token_obtain_pair' %}</a>
+                </li> 
+                <li>
+                    <a href="{% url 'account:token_refresh' %}">{% url 'account:token_refresh' %}</a>
+                </li> 
+                </ol>
+            </li>
+            <li>
+                <h2>Course end point</h2>
+                <ol>
+                    <li>
+                        <a href="{% url 'course:get_courses' %}">{% url 'course:get_courses' %}</a>
+                    </li>
+                </ol>
+            </li>
+        </ul>
+    </div>
+</body>
+</html>

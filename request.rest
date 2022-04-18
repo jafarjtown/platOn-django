@@ -6,3 +6,11 @@ POST http://localhost:8000/api/courses/
     "text": "the course in text format",
     "developer": 3
 }
+
+###
+
+PUT http://localhost:8000/api/account/user/
+
+{
+    
+}

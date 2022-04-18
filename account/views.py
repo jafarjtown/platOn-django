@@ -12,7 +12,7 @@ from rest_framework import serializers
 import json
 from platon_backend.settings import SECRET_KEY, SIMPLE_JWT
 from django.contrib.auth.hashers import make_password
-class Login(APIView):
+class UserAPIView(APIView):
     def get(self, request):
         permission_classes = (IsAuthenticated,)
         user = UserSerializer(request.user)
@@ -21,8 +21,31 @@ class Login(APIView):
     def post(self, request):
         json_data = json.loads(request.body)
         json_data['password'] = make_password(json_data.get('password'))
-        user = User.objects.create(**json_data)
-        return Response({"successfully": True})
+        try:
+            user = User.objects.create(**json_data)
+            return Response({"success": True})
+        except:
+            return Response({"success": False})
+    
+    def put(self, request):
+        permission_classes = (IsAuthenticated,)
+        try:
+            json_body = json.loads(request.body)
+            user = request.user
+            User.objects.filter(id = user.id).update(**json_body)
+            return Response({"success": True})
+        except Exception as e:
+            print(e)
+            return Response({'success': False, "message": "Unknown Error ocured"})
+    
+    def delete(self, request):
+        permission_classes = (IsAuthenticated,)
+        user = request.user
+        user.delete()
+        return Response({"success": True})
+        ...
+
+       
 
 class Home(APIView):
     # permission_classes = (IsAuthenticated,)
