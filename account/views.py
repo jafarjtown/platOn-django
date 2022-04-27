@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
+
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -8,12 +9,12 @@ from account.serializers import UserSerializer
 from .models import User
 import jwt
 from rest_framework.permissions import IsAuthenticated
-from rest_framework import serializers
+from rest_framework import serializers, generics
 import json
 from platon_backend.settings import SECRET_KEY, SIMPLE_JWT
 from django.contrib.auth.hashers import make_password
 class UserAPIView(APIView):
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
     def get(self, request):
         user = UserSerializer(request.user)
         return Response(user.data)
@@ -41,4 +42,6 @@ class UserAPIView(APIView):
         return Response({"success": True})
         ...
 
-       
+class UserCreateAPI(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
