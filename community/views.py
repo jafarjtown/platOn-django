@@ -1,38 +1,45 @@
 from tkinter.tix import Tree
 from turtle import title
+import django
 from django.shortcuts import render
 from rest_framework.decorators import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-
+from rest_framework import generics, filters
 from community.models import Tutorial
 from community.serializers import TutorialSerializer
-
+import django_filters
 from django_filters.rest_framework import DjangoFilterBackend
+from django.db.models import Q
 # Create your views here.
 
-class TutorialFilter(DjangoFilterBackend):
-    
-    def filter_queryset(self, request, queryset, view):
-        
-        filter_class = self.get_filter_class(view, queryset)
-        
-        if filter_class:
-            print(request.query_params)
-            return filter_class(request.query_params, queryset=queryset, request=request).qs
-        return queryset
-    ...
 
-class TutorialAPIView(APIView):
+class TutorialFuncAPIView(APIView):
     permission_classes = (IsAuthenticated,)
-    def get(self, request, format=None):
-        # try to add add some query_params to the url
-        # and print request.query_params
-        # i want to use it in filtering the queryset
-        queryset = Tutorial.objects.all()
-
-        serializer = TutorialSerializer(queryset, many=True)
-        return Response(serializer.data)
     
+    def post(self, request):
+        return Response()
+    
+    def put(self, request):
+        return Response()
+    
+    def delete(self, request):
+        return Response()
+    
+    
+    
+class TutorialListAPIView(generics.ListAPIView):
+    filter_params = ['id','tutor__username', 'title', 'body']
+    queryset = Tutorial.objects.all()
+    serializer_class = TutorialSerializer
+    
+    filter_backends = [filters.SearchFilter,django_filters.rest_framework.DjangoFilterBackend]
+    filterset_fields = filter_params
+    search_fields = filter_params
+    
+    
+    
+    
+    permission_classes = (IsAuthenticated,)
     
     

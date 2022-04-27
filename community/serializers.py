@@ -3,4 +3,5 @@ from .models import Tutorial
 class TutorialSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tutorial
-        fields = '__all__'
+        # fields = '__all__'
+        exclude = ['id']
