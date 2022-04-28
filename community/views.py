@@ -1,6 +1,4 @@
-from tkinter.tix import Tree
-from turtle import title
-import django
+
 from django.shortcuts import render
 from rest_framework.decorators import APIView
 from rest_framework.permissions import IsAuthenticated
@@ -9,8 +7,6 @@ from rest_framework import generics, filters
 from community.models import Tutorial
 from community.serializers import TutorialSerializer
 import django_filters
-from django_filters.rest_framework import DjangoFilterBackend
-from django.db.models import Q
 # Create your views here.
 
 
