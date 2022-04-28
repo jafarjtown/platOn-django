@@ -13,8 +13,22 @@ from rest_framework import serializers, generics
 import json
 from platon_backend.settings import SECRET_KEY, SIMPLE_JWT
 from django.contrib.auth.hashers import make_password
+
+
+class NoAuthorizationForPostOnly(IsAuthenticated):
+
+    def has_permission(self, request, view):
+        """
+        If the request method is POST, then grant permission. Otherwise, authorization is required.
+        """
+        if request.method == "POST":
+            return True
+        return super().has_permission(request, view)
+
+
 class UserAPIView(APIView):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (NoAuthorizationForPostOnly,)
+
     def get(self, request):
         user = UserSerializer(request.user)
         return Response(user.data)
@@ -33,6 +47,3 @@ class UserAPIView(APIView):
         return Response({"success": True})
         ...
 
-class UserCreateAPI(generics.CreateAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserCreateSerializer
