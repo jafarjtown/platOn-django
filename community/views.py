@@ -29,7 +29,7 @@ class TutorialFuncAPIView(APIView):
     
     
 class TutorialListAPIView(generics.ListAPIView):
-    filter_params = ['id','tutor__username', 'title', 'body']
+    filter_params = ['id','tutor__username', 'title', 'body', 'created_on']
     queryset = Tutorial.objects.all()
     serializer_class = TutorialSerializer
     
@@ -40,6 +40,6 @@ class TutorialListAPIView(generics.ListAPIView):
     
     
     
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
     
     
