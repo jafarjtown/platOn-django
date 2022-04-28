@@ -32,7 +32,16 @@ class UserAPIView(APIView):
     def get(self, request):
         user = UserSerializer(request.user)
         return Response(user.data)
-       
+    
+    def post(self, request):
+        json_data = json.loads(request.body)
+        json_data['password'] = make_password(json_data.get('password'))
+        try:
+            user = User.objects.create(**json_data)
+            return Response({"success": True})
+        except:
+            return Response({"success": False})
+    
     def put(self, request):
         try:
             json_body = json.loads(request.body)
