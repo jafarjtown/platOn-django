@@ -1,17 +1,11 @@
-from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse
 
-from rest_framework.decorators import api_view
+from django.http import JsonResponse
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
-from account.serializers import UserCreateSerializer, UserSerializer
+from account.serializers import UserSerializer
 from .models import User
-import jwt
 from rest_framework.permissions import IsAuthenticated
-from rest_framework import serializers, generics
 import json
-from platon_backend.settings import SECRET_KEY, SIMPLE_JWT
 from django.contrib.auth.hashers import make_password
 
 
@@ -35,10 +29,16 @@ class UserAPIView(APIView):
     
     def post(self, request):
         json_data = json.loads(request.body)
-        json_data['password'] = make_password(json_data.get('password'))
+        # json_data['password'] = make_password(json_data.get('password'))
         try:
-            user = User.objects.create(**json_data)
-            return Response({"success": True})
+            if User.objects.filter(username = json_data['username']).exists():
+                return JsonResponse({
+                    "message": "User with that username already Exist Try Another"
+                })
+            User.objects.create_user(**json_data)
+            return Response({
+                "success": True
+                })
         except:
             return Response({"success": False})
     
@@ -47,8 +47,7 @@ class UserAPIView(APIView):
             json_body = json.loads(request.body)
             User.objects.filter(id = request.user.id).update(**json_body)
             return Response({"success": True})
-        except Exception as e:
-            print(e)
+        except:
             return Response({'success': False, "message": "Unknown Error ocured"})
     
     def delete(self, request):
