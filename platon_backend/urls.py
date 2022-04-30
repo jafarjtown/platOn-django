@@ -8,7 +8,5 @@ def Index(request):
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', Index),
-    path('api/account/', include('account.urls')),
-    path('api/courses/', include('course.urls')),
-    path('api/tutorials/', include('community.urls')),
+    path('api/', include('API.urls')),
 ]

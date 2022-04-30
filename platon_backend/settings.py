@@ -40,8 +40,11 @@ INSTALLED_APPS = [
     
     # my apps
     'account',
-    'course',
     'community',
+    'Tutorial',
+    'API',
+    'Article',
+    'Solution',
     
     
     # third parties
