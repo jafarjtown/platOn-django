@@ -41,10 +41,10 @@ INSTALLED_APPS = [
     # my apps
     'account',
     'community',
-    'Tutorial',
+    'tutorial',
     'API',
     'Article',
-    'Solution',
+    # 'Solution',
     
     
     # third parties
