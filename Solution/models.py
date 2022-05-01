@@ -1,5 +1,7 @@
 from django.db import models
+from helper.models import PubContent
 from django.template.defaultfilters import slugify
+
 
 # Create your models here.
 class Question(models.Model):
@@ -20,3 +22,8 @@ class Answer(models.Model):
     title = models.CharField(max_length=250)
     body = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
+
+
+class Solution(PubContent):
+    solver = models.ForeignKey('account.User', related_name='solutions', on_delete=models.PROTECT)
+    source = models.URLField()

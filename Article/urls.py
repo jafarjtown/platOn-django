@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-app_name = 'tutorial'
+app_name = 'article'
 urlpatterns = [
     path('', views.ArticleListAPIView.as_view(), name='articles'),
     path('new/', views.ArticleCreateAPIView.as_view(), name='article_create'),
