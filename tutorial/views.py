@@ -44,7 +44,7 @@ class TutorialReveiwImage(APIView):
         try: 
             trial_image = Image.open(cover_image)
             trial_image.verify()
-            return Response(cover_image)
+            return Response({"message": "Valid"})
         except FileNotFoundError:
             return Response(
                 {"message": "The image file could not be located."},

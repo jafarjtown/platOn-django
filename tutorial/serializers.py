@@ -6,6 +6,7 @@ class TutorialSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tutorial
         fields = (
+            "id",
             "level",
             "time_to_complete",
             "main_lang",
