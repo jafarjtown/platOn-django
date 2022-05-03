@@ -46,7 +46,7 @@ class UserAPIView(APIView):
         try:
             json_body = json.loads(request.body)
             User.objects.filter(id = request.user.id).update(**json_body)
-            return Response({"success": True})
+            return Response({"success": True, "message": "update is successfully"})
         except:
             return Response({'success': False, "message": "Unknown Error ocured"})
     

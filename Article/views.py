@@ -8,10 +8,13 @@ from .models import Article
 from .serializers import ArticleSerializer, ArticleUpdateSerializer
 import django_filters
 import json
+from functools import reduce
+from operator import concat
 class ArticleCreateAPIView(APIView):
-    permission_classes = (IsAuthenticated,)   
+    # permission_classes = (IsAuthenticated,)   
     def post(self, request):
-        params = json.loads(request.body)
+        
+        params = request.data.dict()
         try:
             if User.objects.filter(username = params['publisher']).exists():
                 params['publisher'] = User.objects.get(username = params['publisher'])
@@ -21,7 +24,7 @@ class ArticleCreateAPIView(APIView):
             else:
                 return JsonResponse({'message': 'No Publisher with that username'})
         except Exception as e:
-            return JsonResponse({'message':e.__str__()})
+            return JsonResponse({'message': e.__str__()})
                      
 class ArticleListAPIView(generics.ListAPIView):
     filter_params = ['id', 'publisher__username','summary','language__name', 'title', 'created_on', 'publish']
@@ -30,7 +33,7 @@ class ArticleListAPIView(generics.ListAPIView):
     filter_backends = [filters.SearchFilter,django_filters.rest_framework.DjangoFilterBackend]
     filterset_fields = filter_params
     search_fields = filter_params   
-    permission_classes = (IsAuthenticated,)   
+    # permission_classes = (IsAuthenticated,)   
     
 
 class ArtileDetailDeleteAPIView(generics.RetrieveDestroyAPIView):

@@ -45,16 +45,20 @@ INSTALLED_APPS = [
     'Article',
     'Solution',
     'helper',
-    'tutorial',
+    # 'tutorial',
  
     
     
     # third parties
     'rest_framework',
-    'django_filters'
+    'django_filters',
+    'corsheaders'
 ]
-
+CORS_ALLOWED_ORIGINS = [
+    'http://127.0.0.1:5501'
+]
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

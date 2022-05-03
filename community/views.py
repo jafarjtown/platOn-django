@@ -1,41 +1,16 @@
+from datetime import date
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework import generics
+from .models import Event
+from .serializers import EventSerializer
 
-from django.shortcuts import render
-from rest_framework.decorators import APIView
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
-from rest_framework import generics, filters
-from community.models import Tutorial
-from community.serializers import TutorialSerializer
-import django_filters
-# Create your views here.
-
-
-class TutorialFuncAPIView(APIView):
-    permission_classes = (IsAuthenticated,)
+class EventAPIView(generics.ListCreateAPIView):
+    queryset = Event.objects.filter(start__gte = date.today())
+    serializer_class = EventSerializer
+    permission_classes = (IsAdminUser,)   
     
-    def post(self, request):
-        return Response()
-    
-    def put(self, request):
-        return Response()
-    
-    def delete(self, request):
-        return Response()
-    
-    
-    
-class TutorialListAPIView(generics.ListAPIView):
-    filter_params = ['id','tutor__username', 'title', 'body', 'created_on']
-    queryset = Tutorial.objects.all()
-    serializer_class = TutorialSerializer
-    
-    filter_backends = [filters.SearchFilter,django_filters.rest_framework.DjangoFilterBackend]
-    filterset_fields = filter_params
-    search_fields = filter_params
-    
-    
-    
-    
-    # permission_classes = (IsAuthenticated,)
-    
+class EventAllAPIView(generics.ListAPIView):
+    queryset = Event.objects.all()
+    serializer_class = EventSerializer
+    permission_classes = (IsAdminUser,)   
     

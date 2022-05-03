@@ -1,12 +1,15 @@
 from rest_framework import serializers
+from .models import Event
 
-from account.serializers import UserSerializer
-from .models import Tutorial
-class TutorialSerializer(serializers.ModelSerializer):
-    tutor = UserSerializer()
+
+class EventSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Tutorial
-        # fields = '__all__'
-        exclude = ['id']
-        
-        depth = 2
+        model = Event
+      
+        fields = [ "id",
+                    "title",
+                    "body",
+                    "start",
+                    "ongoing",
+                    "is_expired"
+                  ]

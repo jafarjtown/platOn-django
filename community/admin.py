@@ -1,11 +1,7 @@
 from django.contrib import admin
 
-from community.models import Answer, Article, Question, Tutorial
+from community.models import Event
 
 # Register your models here.
 
-
-admin.site.register(Question)
-admin.site.register(Answer)
-admin.site.register(Article)
-admin.site.register(Tutorial)
+admin.site.register(Event)

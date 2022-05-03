@@ -11,7 +11,7 @@ import json
 class SolutionCreateAPIView(APIView):
     permission_classes = (IsAuthenticated,)   
     def post(self, request):
-        params = json.loads(request.body)
+        params = request.data.dict()
         try:
             if User.objects.filter(username = params['solver']).exists():
                 params['solver'] = User.objects.get(username = params['solver'])

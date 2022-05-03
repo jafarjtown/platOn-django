@@ -2,6 +2,6 @@ from django.urls import path
 from . import views
 app_name = 'community'
 urlpatterns = [
-    path('funcs/', views.TutorialFuncAPIView.as_view(), name='tutorial_api_view'),
-    path('', views.TutorialListAPIView.as_view(), name='tutorial_api_view'),
+    path('event/all/', views.EventAllAPIView.as_view(), name='event_all_api'),
+    path('event/', views.EventAPIView.as_view(), name='event_api'),
 ]
