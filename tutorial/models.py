@@ -5,49 +5,6 @@ from account.models import User
 
 class Tutorial(models.Model):
 
-    """
-    BEGINNER = "Beginner"
-    INTERMEDIATE = "Intermediate"
-    ADVANCED = "Advanced"
-    LEVEL_CHOICES = [
-        (BEGINNER, "Beginner"),
-        (INTERMEDIATE, "Intermediate"),
-        (ADVANCED, "Advanced"),
-    ]
-
-    BASH = "BH"
-    C_C_PLUSPLUS = "CC"
-    DART = "DT"
-    GO = "GO"
-    JAVA = "JV"
-    JAVASCRIPT = "JS"
-    KOTLIN = "KL"
-    OBJECTIVE_C = "OC"
-    PHP = "PP"
-    PYTHON = "PY"
-    SWIFT = "SW"
-    PROGRAMMING_LANG_CHOICES = [
-        (BASH, "Bash"),
-        (C_C_PLUSPLUS, "C/C++"),
-        (DART, "Dart"),
-        (GO, "Go"),
-        (JAVA, "Java"),
-        (JAVASCRIPT, "JavaScript"),
-        (KOTLIN, "Kotlin"),
-        (OBJECTIVE_C, "Objective-C"),
-        (PHP, "PHP"),
-        (PYTHON, "Python"),
-        (SWIFT, "Swift"),
-    ]
-
-    ENGLISH = "EN"
-    FRENCH = "FR"
-    LANGUAGE_CHOICES = [
-        (ENGLISH, "English"),
-        (FRENCH, "French"),
-    ] 
-    """
-
     cover_image = models.ImageField(upload_to="uploads/tutorial/cover_images/%Y/%m/%d/", blank=True)
 
     level = models.CharField(max_length=32)

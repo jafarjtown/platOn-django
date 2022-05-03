@@ -14,7 +14,7 @@ class TutorialListAPIView(generics.ListAPIView):
 
     permission_classes = (IsAuthenticated,)
     queryset = Tutorial.objects.all()
-    serializer_class = TutorialSerializer
+    serializer_class = TutorialListSerializer
     filter_params = [
         "id",
         "level",

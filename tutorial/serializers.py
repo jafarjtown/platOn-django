@@ -24,6 +24,28 @@ class TutorialSerializer(serializers.ModelSerializer):
         )
 
 
+class TutorialListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tutorial
+        fields = (
+            "id",
+            "cover_image",
+            "level",
+            "time_to_complete",
+            "main_lang",
+            "add_lang",
+            "title",
+            "tutor",
+            "language",
+            "summary",
+            "overview",
+            "requirements",
+            "background",
+            "steps",
+            "created_on"
+        )
+
+
 class TutorialImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tutorial
