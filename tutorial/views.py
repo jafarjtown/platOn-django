@@ -1,11 +1,38 @@
+from PIL import Image, UnidentifiedImageError
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import generics, filters, status
+import django_filters
 import json
+
 from .models import Tutorial
 from .serializers import TutorialSerializer, TutorialImageSerializer
-from PIL import Image, UnidentifiedImageError
+
+
+class TutorialListAPIView(generics.ListAPIView):
+    queryset = Tutorial.objects.all()
+    filter_params = [
+        "id",
+        "level",
+        "time_to_complete",
+        "main_lang",
+        "add_lang", 
+        "title",
+        "tutor",
+        "language",
+        "summary",
+        "overview",
+        "requirements",
+        "background",
+        "steps",
+        "created_on"
+    ]
+    filterset_fields = filter_params
+    search_fields = filter_params 
+    serializer_class = TutorialSerializer
+    filter_backends = [filters.SearchFilter, django_filters.rest_framework.DjangoFilterBackend]
+    permission_classes = (IsAuthenticated,)
 
 
 class TutorialReveiw(APIView):
@@ -39,10 +66,8 @@ class TutorialReveiwImage(APIView):
     permission_classes = (IsAuthenticated,)
 
     def post(self, request):
-        cover_image = request.FILES["cover_image"]
-        # logic to check if valid image
         try: 
-            trial_image = Image.open(cover_image)
+            trial_image = Image.open(request.FILES["cover_image"])
             trial_image.verify()
             return Response({"message": "Valid"})
         except FileNotFoundError:
@@ -60,6 +85,7 @@ class TutorialReveiwImage(APIView):
                 {"message": e},
                 status=status.HTTP_400_BAD_REQUEST
             )
+
 
 class TutorialCreate(APIView):
     permission_classes = (IsAuthenticated,)

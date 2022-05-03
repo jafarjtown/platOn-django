@@ -18,7 +18,8 @@ class TutorialSerializer(serializers.ModelSerializer):
             "overview",
             "requirements",
             "background",
-            "steps"
+            "steps",
+            "created_on"
         )
 
 class TutorialImageSerializer(serializers.ModelSerializer):

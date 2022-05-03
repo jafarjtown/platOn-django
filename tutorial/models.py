@@ -1,4 +1,3 @@
-from tokenize import blank_re
 from django.db import models
 from django.template.defaultfilters import slugify
 from account.models import User
@@ -6,9 +5,10 @@ from account.models import User
 
 class Tutorial(models.Model):
 
-    BEGINNER = "BG"
-    INTERMEDIATE = "IT"
-    ADVANCED = "AD"
+    """
+    BEGINNER = "Beginner"
+    INTERMEDIATE = "Intermediate"
+    ADVANCED = "Advanced"
     LEVEL_CHOICES = [
         (BEGINNER, "Beginner"),
         (INTERMEDIATE, "Intermediate"),
@@ -45,19 +45,20 @@ class Tutorial(models.Model):
     LANGUAGE_CHOICES = [
         (ENGLISH, "English"),
         (FRENCH, "French"),
-    ]
+    ] 
+    """
 
     cover_image = models.ImageField(upload_to="uploads/tutorial/cover_images/%Y/%m/%d/", blank=True)
 
-    level = models.CharField(max_length=2, choices=LEVEL_CHOICES)
+    level = models.CharField(max_length=32)
     time_to_complete = models.IntegerField()
 
-    main_lang = models.CharField(max_length=2, choices=PROGRAMMING_LANG_CHOICES)
-    add_lang = models.CharField(max_length=2, choices=PROGRAMMING_LANG_CHOICES, blank=True)
+    main_lang = models.CharField(max_length=32)
+    add_lang = models.CharField(max_length=32, blank=True)
 
     title = models.CharField(max_length=256)
     tutor = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='tutorials')
-    language = models.CharField(max_length=2, choices=LANGUAGE_CHOICES)
+    language = models.CharField(max_length=32)
     summary = models.CharField(max_length=256)
     overview = models.TextField()
     requirements = models.TextField()
