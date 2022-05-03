@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     
     # my apps
     'account',
-    'community',
+    # 'community',
+    'tutorial',
     'API',
     'Article',
     'Solution',
@@ -133,6 +134,9 @@ AUTH_USER_MODEL =   'account.User'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'mediafiles')
+MEDIA_URL = '/media/'
 
 # Extra places for collectstatic to find static files.
 STATICFILES_DIRS = (
