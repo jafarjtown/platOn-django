@@ -42,6 +42,7 @@ class TutorialListSerializer(serializers.ModelSerializer):
             "requirements",
             "background",
             "steps",
+            "slug",
             "created_on"
         )
 
@@ -66,5 +67,5 @@ class TutorialUpdateSerializer(serializers.ModelSerializer):
             "overview",
             "requirements",
             "background",
-            "steps"
+            "steps",
         )

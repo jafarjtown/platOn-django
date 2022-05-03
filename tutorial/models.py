@@ -22,11 +22,11 @@ class Tutorial(models.Model):
     background = models.TextField()
     steps = models.TextField()
     
-    # slug = models.SlugField()
+    slug = models.SlugField()
     created_on = models.DateTimeField(auto_now_add=True)
     
-    # def save(self, *args, **kwargs) -> None:
-    #     if not self.id:
-    #         self.slug = slugify(self.title)
-    #     return super(Tutorial, self).save(*args, **kwargs)
+    def save(self, *args, **kwargs) -> None:
+        if not self.id:
+            self.slug = slugify(self.title)
+        return super(Tutorial, self).save(*args, **kwargs)
     
