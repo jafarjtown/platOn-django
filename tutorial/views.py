@@ -5,6 +5,7 @@ from rest_framework import status
 import json
 from .models import Tutorial
 from .serializers import TutorialSerializer, TutorialImageSerializer
+from PIL import Image, UnidentifiedImageError
 
 
 class TutorialReveiw(APIView):
@@ -40,7 +41,25 @@ class TutorialReveiwImage(APIView):
     def post(self, request):
         cover_image = request.FILES["cover_image"]
         # logic to check if valid image
-
+        try: 
+            trial_image = Image.open(cover_image)
+            trial_image.verify()
+            return Response(cover_image)
+        except FileNotFoundError:
+            return Response(
+                {"message": "The image file could not be located."},
+                status=status.HTTP_404_NOT_FOUND
+            )
+        except UnidentifiedImageError:
+            return Response(
+                {"message": "The image file could not be opened."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        except Exception as e:
+            return Response(
+                {"message": e},
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
 class TutorialCreate(APIView):
     permission_classes = (IsAuthenticated,)
