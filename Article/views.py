@@ -24,7 +24,7 @@ class ArticleCreateAPIView(APIView):
             return JsonResponse({'message':e.__str__()})
                      
 class ArticleListAPIView(generics.ListAPIView):
-    filter_params = ['id', 'publisher__username', 'title', 'body', 'created_on', 'publish']
+    filter_params = ['id', 'publisher__username','summary','language__name', 'title', 'created_on', 'publish']
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
     filter_backends = [filters.SearchFilter,django_filters.rest_framework.DjangoFilterBackend]
@@ -32,7 +32,6 @@ class ArticleListAPIView(generics.ListAPIView):
     search_fields = filter_params   
     permission_classes = (IsAuthenticated,)   
     
-     
 
 class ArtileDetailDeleteAPIView(generics.RetrieveDestroyAPIView):
     queryset = Article.objects.all()

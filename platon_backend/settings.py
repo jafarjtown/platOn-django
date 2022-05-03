@@ -44,7 +44,10 @@ INSTALLED_APPS = [
     'tutorial',
     'API',
     'Article',
-    # 'Solution',
+    'Solution',
+    'helper',
+    'tutorial',
+ 
     
     
     # third parties
