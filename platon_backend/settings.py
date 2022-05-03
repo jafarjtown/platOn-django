@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     # my apps
     'account',
     # 'community',
-    'tutorial',
     'API',
     'Article',
     'Solution',
