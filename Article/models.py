@@ -5,7 +5,7 @@ from django.template.defaultfilters import slugify
 # Create your models here.
 
 class Article(PubContent):
-    publisher = models.ForeignKey('account.User', on_delete=models.SET_NULL, null=True, related_name='articles')
+    publisher = models.ForeignKey('account.User', on_delete=models.CASCADE, related_name='articles')
     publish = models.BooleanField(default=False)
     slug = models.SlugField()
     

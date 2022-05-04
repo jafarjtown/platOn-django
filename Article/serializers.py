@@ -16,11 +16,15 @@ class ArticleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Article
         fields = '__all__'
-        # exclude = ['id']
         
         depth = 2
     
+class ArticleCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Article
+        fields = ['publisher', 'content', 'title', 'language', 'summary', 'cover_img']
+
 class ArticleUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Article
-        fields = ['body', 'title']
+        fields = ['content', 'title', 'summary']

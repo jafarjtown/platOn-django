@@ -1,28 +1,30 @@
-from django.http import JsonResponse
+
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.decorators import APIView
-from rest_framework import generics, filters
-from account.models import User
+from rest_framework import generics, filters, status
+from helper.models import ProLang
 from .models import Solution
-from .serializers import SolutionSerializer, SolutionUpdateSerializer
+from .serializers import SolutionCreateSerializer, SolutionSerializer, SolutionUpdateSerializer
 import django_filters
-import json
 class SolutionCreateAPIView(APIView):
     permission_classes = (IsAuthenticated,)   
     def post(self, request):
-        params = request.data.dict()
-        try:
-            if User.objects.filter(username = params['solver']).exists():
-                params['solver'] = User.objects.get(username = params['solver'])
-                solution = Solution.objects.create(**params)
-                serializer = SolutionSerializer(solution)
-                return Response(serializer.data)
-            else:
-                return JsonResponse({'message': 'No Solution with that username'})
-        except Exception as e:
-            return JsonResponse({'message':e.__str__()})
-                     
+        if(type(request.data) == dict):
+            params = request.data
+        else:
+            params = request.data.dict()
+        params['solver'] = request.user.pk
+        lang, _ = ProLang.objects.get_or_create(name=params['language'])
+        params['language'] = lang.pk
+        serializer = SolutionCreateSerializer(data=params)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response({
+            'messages': serializer.errors
+        },status=status.HTTP_400_BAD_REQUEST)
+              
 class SolutionListAPIView(generics.ListAPIView):
     filter_params = ['id', 'solver__username','summary','language__name', 'title', 'created_on', 'approved']
     queryset = Solution.objects.all()

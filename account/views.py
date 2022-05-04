@@ -2,11 +2,13 @@
 from django.http import JsonResponse
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from account.serializers import UserSerializer
+from account.serializers import UserCreateSerializer, UserSerializer
+from community import serializers
 from .models import User
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 import json
 from django.contrib.auth.hashers import make_password
+from rest_framework import status, generics
 
 
 class NoAuthorizationForPostOnly(IsAuthenticated):
@@ -25,33 +27,38 @@ class UserAPIView(APIView):
 
     def get(self, request):
         user = UserSerializer(request.user)
-        return Response(user.data)
+        return Response(user.data, status=status.HTTP_200_OK)
     
     def post(self, request):
-        json_data = json.loads(request.body)
-        # json_data['password'] = make_password(json_data.get('password'))
-        try:
-            if User.objects.filter(username = json_data['username']).exists():
-                return JsonResponse({
-                    "message": "User with that username already Exist Try Another"
-                })
-            User.objects.create_user(**json_data)
-            return Response({
-                "success": True
-                })
-        except:
-            return Response({"success": False})
+        if(type(request.data) == dict):
+            json_data = request.data
+        else:
+            json_data = request.data.dict()
+        serializer = UserCreateSerializer(data=json_data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "User Created" }, status=status.HTTP_201_CREATED)
+        return Response({
+                "messages": serializer.errors
+                }, status=status.HTTP_400_BAD_REQUEST)
+        
     
     def put(self, request):
         try:
-            json_body = json.loads(request.body)
-            User.objects.filter(id = request.user.id).update(**json_body)
-            return Response({"success": True, "message": "update is successfully"})
+            if(type(request.data) == dict):
+                json_data = request.data
+            else:
+                json_data = request.data.dict()
+            User.objects.filter(id = request.user.id).update(**json_data)
+            return Response({"success": True, "message": "update is successfully"}, status=status.HTTP_200_OK)
         except:
-            return Response({'success': False, "message": "Unknown Error ocured"})
-    
+            return Response({'success': False, "message": "Unknown Error ocured"}, status=status.HTTP_400_BAD_REQUEST)
+        
     def delete(self, request):
         request.user.delete()
-        return Response({"success": True})
+        return Response({"success": True}, status=status.HTTP_200_OK)
         ...
 
+class UserAllAPIView(generics.ListAPIView):
+    queryset = User.objects.all()
+    permission_classes = (IsAdminUser)

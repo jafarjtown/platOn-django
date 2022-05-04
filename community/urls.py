@@ -4,4 +4,5 @@ app_name = 'community'
 urlpatterns = [
     path('event/all/', views.EventAllAPIView.as_view(), name='event_all_api'),
     path('event/', views.EventAPIView.as_view(), name='event_api'),
+    path('event/create/', views.EventCreateAPIView.as_view(), name='event_create_api'),
 ]
