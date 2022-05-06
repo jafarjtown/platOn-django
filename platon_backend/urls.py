@@ -10,6 +10,6 @@ def index(request):
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', index),
+    # path('', index),
     path('api/', include('API.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
